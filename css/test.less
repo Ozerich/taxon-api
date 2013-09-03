@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: blue;
+
+  &:hover {
+    color: #647dff;
+  }
+
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  background: #eee;
+}
+
+button, input[type=submit] {
+  border: 1px solid #222;
+  padding: 0 10px;
+  background: #ededed;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    background: #ddd;
+  }
+
+  &:disabled {
+    background: #aaa;
+    cursor: pointer;
+    &:hover, &:active{
+      background: #aaa;
+    }
+  }
+}
+
+#page {
+  width: 700px;
+  background: #fff;
+  border: 1px solid #aaa;
+  margin: 20px auto;
+  h1 {
+    font-size: 30px;
+    line-height: 50px;
+    text-align: center;
+    display: block;
+    border-bottom: 1px solid #aaa;
+  }
+}
+
+#content {
+  padding: 20px 0;
+  .no-requests {
+    display: block;
+    font-size: 20px;
+    text-align: center;
+  }
+  nav {
+    padding: 0 20px 20px 20px;
+    border-bottom: 1px solid #aaa;
+  }
+
+  section {
+    article {
+      border-bottom: 1px dashed #aaa;
+      padding: 10px 20px;
+      h2 {
+        margin-bottom: 5px;
+      }
+      p {
+        font-size: 13px;
+        color: #222;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        td, th {
+          border: 1px solid #aaa;
+          padding: 5px;
+        }
+      }
+
+      .btn-test {
+        margin: 10px auto;
+        display: block;
+      }
+
+      .params {
+        .param {
+          margin-bottom: 4px;
+          width: 655px;
+          label {
+            display: block;
+            margin-bottom: 2px;
+            font-weight: bold;
+            small {
+              float: right;
+              color: #aaa;
+              font-weight: normal;
+            }
+          }
+          input[type=text] {
+            width: 100%;
+          }
+        }
+      }
+
+      .submit {
+        padding: 5px 50px;
+        margin: 10px 0;
+      }
+
+      .response {
+        h3{
+          display: inline-block;
+          margin-right: 5px;
+        }
+        .error{
+          color: red;
+        }
+        .response-area {
+          margin: 5px 0;
+          background: #f2fcc3;
+          padding: 15px;
+          width: 600px;
+          font-style: italic;
+          font-size: 14px;
+          max-height: 100px;
+          overflow: auto;
+        }
+      }
+    }
+  }
+
+}
