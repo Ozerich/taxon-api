@@ -30,6 +30,7 @@ return array(
 
                 'register' => 'site/register',
                 'test' => 'test/index',
+                'admin' => 'admin/index',
 
                 '<page:\w+>' => 'site/static/page/<page>',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
@@ -47,5 +48,6 @@ return array(
 
     'params' => array(
         'api_url' => strpos($_SERVER['SERVER_ADDR'], '127') === 0 ? 'http://taxon/api/' : 'http://taxon.ozis.by/api/',
+        'admin_password' => 'admin'
     ),
 );

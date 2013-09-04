@@ -55,4 +55,15 @@ class Order extends CActiveRecord
             'driver_coords' => 'Driver Coords',
         );
     }
+
+    public static function CountClients()
+    {
+        $clients = array();
+        foreach (self::model()->findAll() as $order) {
+            if (!in_array($order->client_phone, $clients)) {
+                $clients[] = $order->client_phone;
+            }
+        }
+        return count($clients);
+    }
 }
