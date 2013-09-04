@@ -28,7 +28,6 @@ class TestController extends CController
         $post_data = implode('&', $post_data);
 
         $url = Yii::app()->params['api_url'] . $command;
-
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_POST, true);
@@ -36,6 +35,8 @@ class TestController extends CController
         curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
         $response = curl_exec($curl);
         curl_close($curl);
+
+        print_r($response);exit;
 
         echo print_r(json_decode($response), true);
         Yii::app()->end();

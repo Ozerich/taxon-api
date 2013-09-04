@@ -28,8 +28,8 @@
             <nav>
                 <ul>
                     <? foreach ($requests as $num => $request): ?>
-                        <a href="#request_<?= $num ?>"><strong><?=$request['Command']?></strong>
-                            - <?=$request['Title']?></a>
+                        <li><a href="#request_<?= $num ?>"><strong><?=$request['Command']?></strong>
+                            - <?=$request['Title']?></a></li>
                     <? endforeach; ?>
                 </ul>
             </nav>

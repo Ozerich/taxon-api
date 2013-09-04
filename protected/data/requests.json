@@ -1,12 +1,100 @@
 [
     {
         "Command": "Auth",
-        "Method": "POST",
-        "Title": "Запрос на авторизацию водителя",
+        "Title": "Запрос на авторизацию таксиста",
         "Params": {
             "phone": {
-                "name": "Телефон водителя",
+                "name": "Телефон таксиста",
                 "example": "375296701050"
+            }
+        }
+    },
+    {
+        "Command": "SetSleepMode",
+        "Title": "Установка / Снятие режима ожидания у таксиста",
+        "Params": {
+            "token": {
+                "name": "Токен водителя",
+                "example": "577ef1154f3240ad5b9b413aa7346a1e"
+            },
+            "order_id": {
+                "name": "Флаг спящего режима",
+                "example": "1"
+            }
+        }
+    },
+    {
+        "Command": "UpdatePosition",
+        "Title": "Обновление позиции таксиста",
+        "Params": {
+            "token": {
+                "name": "Токен водителя",
+                "example": "577ef1154f3240ad5b9b413aa7346a1e"
+            },
+            "coords": {
+                "name": "Новые координаты",
+                "example": "32.34235;-23.235235"
+            }
+        }
+    },
+    {
+        "Command": "AddOrder",
+        "Title": "Добавление нового заказа",
+        "Params": {
+            "phone": {
+                "name": "Телефон клиента",
+                "example": "375296110404"
+            },
+            "car_type": {
+                "name": "Тип машины",
+                "example": ""
+            },
+            "address": {
+                "name": "Адрес, куда заказывает машину",
+                "example": ""
+            },
+            "coords": {
+                "name": "Координаты клиента (Если невозможно определить поле пустое)",
+                "example": "50.0000;60.00000"
+            }
+
+        }
+    },
+    {
+        "Command": "GetOrderInfo",
+        "Title": "Получение информации о заказе",
+        "Params": {
+            "order_id": {
+                "name": "ID заказа",
+                "example": "1"
+            }
+        }
+    },
+    {
+        "Command": "ConfirmOrderByDriver",
+        "Title": "Подтверждение заказа Водителем",
+        "Params": {
+            "token": {
+                "name": "Токен водителя",
+                "example": "577ef1154f3240ad5b9b413aa7346a1e"
+            },
+            "order_id": {
+                "name": "ID заказа",
+                "example": "1"
+            }
+        }
+    },
+    {
+        "Command": "ConfirmOrderByClient",
+        "Title": "Подтверждение заказа Клиентом",
+        "Params": {
+            "token": {
+                "name": "Телефон клиента",
+                "example": "375291294101"
+            },
+            "order_id": {
+                "name": "ID заказа",
+                "example": "1"
             }
         }
     }

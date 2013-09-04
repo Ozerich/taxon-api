@@ -4,6 +4,8 @@
  * Водитель
  *
  * @property integer $id
+ * @property integer $sleep;
+ * @property string $position;
  * @property string $name
  * @property string $surname
  * @property string $car
@@ -30,7 +32,7 @@ class Driver extends CActiveRecord
     public function rules()
     {
         return array(
-            array('name, surname, car, car_number, type, color, organization_id, phone, document_number, email', 'required'),
+            array('name, surname, car, position, sleep, car_number, type, color, organization_id, phone, document_number, email', 'required'),
             array('organization_id', 'numerical', 'integerOnly' => true),
             array('name, surname, car, car_number, type, color, phone, document_number, email', 'length', 'max' => 255),
             array('token'),
