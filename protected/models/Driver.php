@@ -4,18 +4,18 @@
  * Водитель
  *
  * @property integer $id
+ * @property integer $accepted;
  * @property integer $sleep;
  * @property string $position;
  * @property string $name
  * @property string $surname
  * @property string $car
  * @property string $car_number
- * @property string $type
- * @property string $color
+ * @property string $car_type
+ * @property string $car_color
  * @property integer $organization_id
  * @property string $phone
  * @property string $document_number
- * @property string $email
  */
 class Driver extends CActiveRecord
 {
@@ -32,10 +32,10 @@ class Driver extends CActiveRecord
     public function rules()
     {
         return array(
-            array('name, surname, car, position, sleep, car_number, type, color, organization_id, phone, document_number, email', 'required'),
+            array('name, surname, car, car_number, car_type, car_color, organization_id, phone, document_number', 'required'),
             array('organization_id', 'numerical', 'integerOnly' => true),
-            array('name, surname, car, car_number, type, color, phone, document_number, email', 'length', 'max' => 255),
-            array('token'),
+            array('position, sleep', 'safe'),
+            array('name, surname, car, car_number, car_type, car_color, phone, document_number, email', 'length', 'max' => 255),
         );
     }
 
@@ -44,23 +44,6 @@ class Driver extends CActiveRecord
     {
         return array(
             array(self::BELONGS_TO, 'Organization', 'organization_id'),
-        );
-    }
-
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'surname' => 'Surname',
-            'car' => 'Car',
-            'car_number' => 'Car Number',
-            'type' => 'Type',
-            'color' => 'Color',
-            'organization_id' => 'Organization',
-            'phone' => 'Phone',
-            'document_number' => 'Document Number',
-            'email' => 'Email',
         );
     }
 

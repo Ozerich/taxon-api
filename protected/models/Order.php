@@ -15,6 +15,8 @@
 class Order extends CActiveRecord
 {
     static $STATUS_CREATED = "created";
+    static $STATUS_WAIT_CLIENT = "wait_client";
+    static $STATUS_SUCCESS = "success";
 
     public static function model($className = __CLASS__)
     {

@@ -32,7 +32,6 @@ class ApiController extends CController
         ));
     }
 
-
     private function validateCoords($coords)
     {
         return preg_match('#^\d+\.\d+\;\d+\.\d+$#sui', trim($coords)) != false;
@@ -68,6 +67,21 @@ class ApiController extends CController
         return $order;
     }
 
+
+    public function actionGetOrganizations()
+    {
+        $result = array();
+
+        foreach (Organization::model()->findAll() as $organization) {
+            $result[] = array(
+                'id' => $organization->id,
+                'name' => $organization->name
+            );
+        }
+
+        $this->success('', $result);
+    }
+
     public function actionAuth()
     {
         $phone = Yii::app()->request->getPost('phone');
@@ -84,11 +98,32 @@ class ApiController extends CController
             $this->error(self::$ERROR_USER, 'Водитель не найден');
         }
 
+        if ($driver->accepted == false) {
+            $this->error(self::$ERROR_USER, 'Водитель не подтвержден');
+        }
+
         $driver->GenerateToken();
 
         $this->success('Авторизация успешна', array(
             'token' => $driver->token
         ));
+    }
+
+    public function actionSetSleepMode()
+    {
+        $driver = $this->getDriver();
+
+        $is_sleep = Yii::app()->request->getPost("is_sleep");
+        if ($is_sleep == '') {
+            $this->error(self::$ERROR_USER, "Не указан флаг");
+        }
+
+        $driver->sleep = $is_sleep ? 1 : 0;
+        if (!$driver->save()) {
+            $this->error(self::$ERROR_USER, 'Ошибка установки режима');
+        }
+
+        $this->success('Режим установлен');
     }
 
     public function actionUpdatePosition()
@@ -121,6 +156,9 @@ class ApiController extends CController
         }
 
         $car_type = Yii::app()->request->getPost('car_type');
+        if ($car_type != 'any' && $car_type != 'van' && $car_type != 'universal' && $car_type != 'sedan') {
+            $this->error(self::$ERROR_USER, 'Неправильный тип машины');
+        }
 
         $address = Yii::app()->request->getPost('address');
         $coords = Yii::app()->request->getPost('coords');
@@ -149,7 +187,7 @@ class ApiController extends CController
 
         $order->status = Order::$STATUS_CREATED;
         $order->timestamp = time();
-        $order->car_type = $car_type || 1;
+        $order->car_type = $car_type;
         $order->client_phone = $phone;
         $order->client_coords = $coords;
 
@@ -164,7 +202,7 @@ class ApiController extends CController
     }
 
 
-    public function actionGetOrder()
+    public function actionGetOrderInfo()
     {
         $order = $this->getOrder();
 
@@ -172,5 +210,43 @@ class ApiController extends CController
             'id' => $order->id,
             'status' => $order->status,
         ));
+    }
+
+
+    public function actionConfirmOrderByDriver()
+    {
+        $order = $this->getOrder();
+        $driver = $this->getDriver();
+
+        if ($order->status != Order::$STATUS_CREATED) {
+            $this->error(self::$ERROR_USER, 'Заказ уже был подтвержден');
+        }
+
+        $order->status = Order::$STATUS_WAIT_CLIENT;
+        $order->driver_id = $driver->id;
+        $order->driver_coords = $driver->position;
+
+        if (!$order->save()) {
+            $this->error(self::$ERROR_USER, "Ошибка подтверждения");
+        }
+
+        $this->success('Заказ подтвержден водителем');
+    }
+
+
+    public function actionConfirmOrderByClient()
+    {
+        $order = $this->getOrder();
+
+        if (!$order->status != Order::$STATUS_WAIT_CLIENT) {
+            $this->error(self::$ERROR_USER, 'Заказ уже выполнен');
+        }
+
+        $order->status = Order::$STATUS_SUCCESS;
+        if (!$order->save()) {
+            $this->error(self::$ERROR_USER, "Ошибка подтверждения");
+        }
+
+        $this->success('Заказ подтвержден клиентом');
     }
 }

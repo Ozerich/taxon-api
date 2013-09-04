@@ -2,6 +2,8 @@
 
 class TestController extends CController
 {
+    public $layout = 'none';
+
     public function actionIndex()
     {
         $requests_file = dirname(__FILE__) . '/../data/requests.json';
@@ -22,7 +24,7 @@ class TestController extends CController
 
         $post_data = array();
         $params = Yii::app()->request->getPost('Params');
-        foreach ($params as $param) {
+        if ($params) foreach ($params as $param) {
             $post_data[] = $param['key'] . '=' . urlencode($param['value']);
         }
         $post_data = implode('&', $post_data);
@@ -36,8 +38,9 @@ class TestController extends CController
         $response = curl_exec($curl);
         curl_close($curl);
 
-        print_r($response);exit;
 
+        echo $response;
+        echo "<br><br>";
         echo print_r(json_decode($response), true);
         Yii::app()->end();
     }

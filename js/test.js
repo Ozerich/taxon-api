@@ -44,12 +44,12 @@ $(function () {
                     $btn.prop('disabled', false);
                 },
                 error: function (data) {
-                    $('.error').text(data.status + ' - ' + data.statusText);
+                    $error.text(data.status + ' - ' + data.statusText);
                     $response.text('');
                 },
                 success: function (data) {
-                    $('.error').text('');
-                    $response.text(data);
+                    $error.text('');
+                    $response.html(data);
                 }
             });
 
