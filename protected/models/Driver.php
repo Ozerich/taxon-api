@@ -19,6 +19,12 @@
  */
 class Driver extends CActiveRecord
 {
+    public static $car_types = array(
+        'sedan' => 'Легковой',
+        'universal' => 'Универсал',
+        'van' => 'Минивен'
+    );
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -35,7 +41,7 @@ class Driver extends CActiveRecord
             array('name, surname, car, car_number, car_type, car_color, organization_id, phone, document_number', 'required'),
             array('organization_id', 'numerical', 'integerOnly' => true),
             array('position, sleep', 'safe'),
-            array('name, surname, car, car_number, car_type, car_color, phone, document_number, email', 'length', 'max' => 255),
+            array('name, surname, car, car_number, car_type, car_color, phone, document_number', 'length', 'max' => 255),
         );
     }
 
@@ -43,7 +49,22 @@ class Driver extends CActiveRecord
     public function relations()
     {
         return array(
-            array(self::BELONGS_TO, 'Organization', 'organization_id'),
+            'organization' => array(self::BELONGS_TO, 'Organization', 'organization_id'),
+        );
+    }
+
+    public function attributeLabels()
+    {
+        return array(
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
+            'car' => 'Машина',
+            'car_number' => 'Номер машины',
+            'car_type' => 'Тип машины',
+            'car_color' => 'Цвет машины',
+            'organization_id' => 'Организация',
+            'phone' => 'Телефон',
+            'document_number' => 'Номер вод. удостоверения',
         );
     }
 

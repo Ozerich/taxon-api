@@ -34,7 +34,7 @@ class ApiController extends CController
 
     private function validateCoords($coords)
     {
-        return preg_match('#^\d+\.\d+\;\d+\.\d+$#sui', trim($coords)) != false;
+        return preg_match('#^\-*\d+\.\d+\;\-*\d+\.\d+$#sui', trim($coords)) != false;
     }
 
     private function getDriver()
@@ -44,7 +44,7 @@ class ApiController extends CController
             $this->error(self::$ERROR_USER, 'Токен не может быть пустым');
         }
 
-        $user = Driver::model()->findByPk($token);
+        $user = Driver::model()->findByAttributes(array('token' => $token));
         if (!$user) {
             $this->error(self::$ERROR_USER, 'Пользователь не найден');
         }
@@ -238,7 +238,7 @@ class ApiController extends CController
     {
         $order = $this->getOrder();
 
-        if (!$order->status != Order::$STATUS_WAIT_CLIENT) {
+        if ($order->status != Order::$STATUS_WAIT_CLIENT) {
             $this->error(self::$ERROR_USER, 'Заказ уже выполнен');
         }
 
