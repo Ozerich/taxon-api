@@ -39,7 +39,38 @@ class AdminController extends CController
 
     public function actionIndex()
     {
-
         $this->render('index');
+    }
+
+    public function actionDrivers()
+    {
+        $this->render('drivers', array('dataProvider' => new CActiveDataProvider('Driver')));
+    }
+
+    public function actionDriver($id = 0)
+    {
+        $driver = Driver::model()->findByPk($id);
+        if (!$driver) {
+            throw new CHttpException(404);
+        }
+
+        if (Yii::app()->request->isPostRequest) {
+            $driver->attributes = $_POST['Driver'];
+            if ($driver->save()) {
+                $this->redirect('/admin/drivers');
+            }
+        }
+
+        $this->render('driver', array('model' => $driver));
+    }
+
+    public function actionDelete_driver($id = 0)
+    {
+        $driver = Driver::model()->findByPk($id);
+        if (!$driver) {
+            throw new CHttpException(404);
+        }
+        $driver->delete();
+        $this->redirect('/admin/drivers');
     }
 }

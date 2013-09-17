@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.1
+-- version 4.0.5
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost
--- Время создания: Сен 04 2013 г., 17:02
--- Версия сервера: 5.5.25
--- Версия PHP: 5.3.13
+-- Host: localhost
+-- Generation Time: Sep 18, 2013 at 02:31 AM
+-- Server version: 5.1.68-cll-lve
+-- PHP Version: 5.3.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,19 +17,19 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- База данных: `taxon`
+-- Database: `ozisby_taxon`
 --
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `drivers`
+-- Table structure for table `drivers`
 --
 
 CREATE TABLE IF NOT EXISTS `drivers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `accepted` tinyint(1) NOT NULL,
-  `sleep` tinyint(1) NOT NULL,
+  `sleep` tinyint(1) NOT NULL DEFAULT '1',
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `position` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -45,34 +45,63 @@ CREATE TABLE IF NOT EXISTS `drivers` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
--- Дамп данных таблицы `drivers`
+-- Dumping data for table `drivers`
 --
 
 INSERT INTO `drivers` (`id`, `accepted`, `sleep`, `token`, `position`, `name`, `surname`, `car`, `car_number`, `car_type`, `car_color`, `organization_id`, `phone`, `document_number`) VALUES
-(1, 0, 0, '', '', 'Виталий', 'Озерский', 'Опель Корса', '1254152', 'sedan', 'Розовый', 1, '+375296704790', '12401904');
+(1, 1, 0, '150ee3b4763feb7dbeab162b4ee5be69', '32.34235;-23.235235', 'Виталий', 'Озерский', 'Опель Корса', '1254152', 'sedan', 'Розовый', 1, '+375296704790', '12401904');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `status` enum('created','wait_driver','wait_client','success','cancelled','car_no_found') COLLATE utf8_unicode_ci NOT NULL,
-  `created_time` datetime NOT NULL,
+  `status` enum('created','searching','wait_client','success','cancelled','car_no_found') COLLATE utf8_unicode_ci NOT NULL,
+  `timestamp` int(11) NOT NULL,
   `car_type` enum('any','sedan','universal','van') COLLATE utf8_unicode_ci NOT NULL,
   `client_phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `client_coords` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `driver_id` int(11) NOT NULL,
-  `driver_coords` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `status`, `timestamp`, `car_type`, `client_phone`, `client_coords`, `driver_id`) VALUES
+(2, 'success', 1379456116, 'sedan', '375296110404', '50.0000;60.00000', 1),
+(3, 'cancelled', 1379456682, 'sedan', '375296110404', '50.0000;60.00000', 1);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `organizations`
+-- Table structure for table `order_drivers`
+--
+
+CREATE TABLE IF NOT EXISTS `order_drivers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `driver_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `order_drivers`
+--
+
+INSERT INTO `order_drivers` (`id`, `order_id`, `driver_id`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `organizations`
 --
 
 CREATE TABLE IF NOT EXISTS `organizations` (
@@ -82,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `organizations` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
--- Дамп данных таблицы `organizations`
+-- Dumping data for table `organizations`
 --
 
 INSERT INTO `organizations` (`id`, `name`) VALUES
@@ -92,6 +121,20 @@ INSERT INTO `organizations` (`id`, `name`) VALUES
 (4, '152'),
 (5, '202'),
 (6, '107');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `requests`
+--
+
+CREATE TABLE IF NOT EXISTS `requests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `driver_id` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=8 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -10,13 +10,15 @@
  * @property string $client_phone
  * @property string $client_coords
  * @property integer $driver_id
- * @property string $driver_coords
  */
 class Order extends CActiveRecord
 {
     static $STATUS_CREATED = "created";
+    static $STATUS_SEARCHING = "searching";
     static $STATUS_WAIT_CLIENT = "wait_client";
     static $STATUS_SUCCESS = "success";
+    static $STATUS_CANCELLED = "cancelled";
+    static $STATUS_CAR_NO_FOUND = "car_no_found";
 
     public static function model($className = __CLASS__)
     {
@@ -33,7 +35,7 @@ class Order extends CActiveRecord
         return array(
             array('status, car_type, client_phone, client_coords', 'required'),
             array('driver_id', 'numerical', 'integerOnly' => true),
-            array('car_type, client_phone, client_coords, driver_coords', 'length', 'max' => 255),
+            array('car_type, client_phone, client_coords', 'length', 'max' => 255),
         );
     }
 
@@ -52,7 +54,6 @@ class Order extends CActiveRecord
             'client_phone' => 'Client Phone',
             'client_coords' => 'Client Coords',
             'driver_id' => 'Driver',
-            'driver_coords' => 'Driver Coords',
         );
     }
 
