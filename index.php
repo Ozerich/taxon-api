@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('Europe/Minsk');
+set_time_limit(0);
 
 if (strpos($_SERVER['SERVER_ADDR'], '127') === 0) {
 

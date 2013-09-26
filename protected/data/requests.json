@@ -6,6 +6,16 @@
 
         }
     },
+	{
+        "Command": "SendActivationSMS",
+        "Title": "Отсылает SMS c активацинном кодом и возвращает сам код",
+        "Params": {
+            "phone": {
+                "name": "Телефон куда слать СМС",
+                "example": "375296701050"
+            }
+        }
+    },
     {
         "Command": "Auth",
         "Title": "Запрос на авторизацию таксиста",
@@ -32,7 +42,7 @@
     },
     {
         "Command": "UpdatePosition",
-        "Title": "Обновление позиции таксиста",
+        "Title": "Обновление позиции таксиста и получение нового заказа",
         "Params": {
             "token": {
                 "name": "Токен водителя",
@@ -54,7 +64,7 @@
             },
             "car_type": {
                 "name": "Тип машины (any, sedan, universal, van)",
-                "example": ""
+                "example": "sedan"
             },
             "address": {
                 "name": "Адрес, куда заказывает машину",
@@ -68,18 +78,8 @@
         }
     },
     {
-        "Command": "GetOrderInfo",
-        "Title": "Получение информации о заказе",
-        "Params": {
-            "order_id": {
-                "name": "ID заказа",
-                "example": "1"
-            }
-        }
-    },
-    {
-        "Command": "ConfirmOrderByDriver",
-        "Title": "Подтверждение заказа Водителем",
+        "Command": "DriverAnswerOrder",
+        "Title": "Ответ водителя на новый заказ",
         "Params": {
             "token": {
                 "name": "Токен водителя",
@@ -88,17 +88,35 @@
             "order_id": {
                 "name": "ID заказа",
                 "example": "1"
+            },
+            "answer": {
+                "name": "Ответ водителя: 1 - согласен, 0 - не согласен",
+                "example": "1"
+            },
+            "time": {
+                "name": "Если водитель согласен, то указывается время прибытия в минутах",
+                "example": "15"
             }
         }
     },
     {
-        "Command": "ConfirmOrderByClient",
-        "Title": "Подтверждение заказа Клиентом",
+        "Command": "ClientAnswerOrder",
+        "Title": "Ответ клиента на заказ, который он создал и водитель уже дал ответ и клиенту надо дать согласие",
         "Params": {
-            "phone": {
-                "name": "Телефон клиента",
-                "example": "375291294101"
+            "order_id": {
+                "name": "ID заказа",
+                "example": "1"
             },
+            "answer": {
+                "name": "Ответ клиента: 1 - согласен, 0 - не согласен",
+                "example": "1"
+            }
+        }
+    },
+    {
+        "Command": "CheckOrder",
+        "Title": "Вызывается клиентом постоянно, служит для проверки статуса заказа, тоесть найден ли водитель, если найден то инфа о нем",
+        "Params": {
             "order_id": {
                 "name": "ID заказа",
                 "example": "1"

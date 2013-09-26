@@ -44,6 +44,13 @@ return array(
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ),
+		
+		'sms' => array
+        (
+            'class'    => 'application.extensions.sms.Sms',
+            'login'     => '375291989000',
+            'password'   => 'smsfor2013',
+        ),
 
         'db' => require_once(DB_CONFIG),
 
